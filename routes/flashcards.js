@@ -1,35 +1,37 @@
-const express = require('express')
-const FlashCards = require('../models/FlashCards')
+const express = require("express");
+const FlashCards = require("../models/FlashCards");
 
-const router = express.Router()
+const router = express.Router();
 
+router.get("/", async (req, res) => {
+  try {
+    const flashCard = await FlashCards.find();
+    res.status(200).json(flashCard);
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
 
-router.get('/', async (req, res) => {
-    try {
-        const flashCard = await FlashCards.find()
-        res.status(200).json(flashCard)
-    } catch (err) {
-        res.json({
-            message: err
-        })
-    }
-})
+router.post("/", async (req, res) => {
+  const flashCard = new FlashCards({
+    word1: req.body.word1,
+    word2: req.body.word2,
+    archive: req.body.archive,
+    difficult: req.body.difficult,
+    easy: req.body.easy,
+  });
 
-router.post('/', async (req, res) => {
-    const flashCard = new FlashCards({
-        word: req.body.word,
-        definition: req.body.definition
-    })
-
-    try {
-        const savedWord = await flashCard.save()
-        res.json(savedWord)
-    } catch (err) {
-        res.json({
-            message: err
-        })
-    }
-})
+  try {
+    const savedWord = await flashCard.save();
+    res.json(savedWord);
+  } catch (err) {
+    res.json({
+      message: err,
+    });
+  }
+});
 
 // router.delete('/:postId', async (req, res)=>{
 //     debugger
@@ -56,4 +58,4 @@ router.post('/', async (req, res) => {
 //     }
 // })
 
-module.exports = router
+module.exports = router;
