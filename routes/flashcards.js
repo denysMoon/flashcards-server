@@ -33,15 +33,17 @@ router.post("/", async (req, res) => {
   }
 });
 
-// router.delete('/:postId', async (req, res)=>{
-//     debugger
-//     try{
-//         const removedList = await List.findByIdAndDelete({_id: req.params.postId})
-//         res.json(removedList)
-//     } catch(err){
-//         res.json({message: err})
-//     }
-// })
+router.delete("/:postId", async (req, res) => {
+  debugger;
+  try {
+    const removedFlashCard = await FlashCards.findByIdAndDelete({
+      _id: req.params.postId,
+    });
+    res.json(removedFlashCard);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
 // router.put('/:postId', async (req, res)=>{
 //     console.log(req.body.body)
